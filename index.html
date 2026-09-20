@@ -24,15 +24,11 @@
             margin: 0;
             padding: 0;
             font-family: 'Vazirmatn', sans-serif;
-            /* Disable pull-to-refresh and selection to make it feel like an app */
-            touch-action: none; 
-            -webkit-user-select: none;
-            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
         body, html {
-            height: 100dvh;
+            min-height: 100dvh;
             width: 100vw;
             overflow: hidden;
             display: flex;
@@ -51,7 +47,7 @@
 
         .ambient-heart {
             position: absolute;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 24px;
             animation: floatUp linear infinite;
             z-index: 1;
@@ -73,24 +69,28 @@
             border-radius: 30px;
             padding: 40px 30px;
             text-align: center;
-            box-shadow: 0 8px 32px rgba(255, 77, 133, 0.2);
+            box-shadow: 0 10px 40px rgba(255, 77, 133, 0.2);
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
             z-index: 10;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
         }
 
         h1 {
             color: var(--primary);
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 10px;
             text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+            font-weight: 800;
         }
 
         p {
             color: var(--text-color);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             line-height: 1.6;
             margin-bottom: 40px;
             font-weight: 600;
@@ -98,46 +98,55 @@
 
         .button-group {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            gap: 20px;
-            position: relative; 
-            min-height: 50px;
+            gap: 15px;
+            width: 100%;
+            position: relative;
         }
 
         .btn {
-            padding: 12px 30px;
-            font-size: 1.2rem;
             font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             outline: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-yes {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
-            animation: pulseBtn 2s infinite;
+            font-size: 1.2rem;
+            padding: 12px 40px;
+            box-shadow: 0 8px 20px rgba(255, 77, 133, 0.4);
             z-index: 5;
-        }
-
-        @keyframes pulseBtn {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 133, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 77, 133, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 133, 0); }
+            white-space: nowrap;
+            /* Will scale up with JS */
+            transform-origin: center;
         }
 
         .btn-no {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.8);
             color: var(--primary);
             border: 2px solid var(--primary);
-            /* z-index needs to be high for mobile teleportation */
-            position: relative;
-            z-index: 9999;
-            /* Smooth transition when running away */
-            transition: left 0.3s ease-out, top 0.3s ease-out;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            /* Will scale down with JS */
+            transform-origin: center;
+        }
+
+        #proposal-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            transition: opacity 0.5s ease;
         }
 
         .success-screen {
@@ -146,7 +155,7 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: opacity 0.8s ease;
+            width: 100%;
         }
 
         .success-screen.active {
@@ -162,15 +171,15 @@
 
         .ring-wrapper {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 20px auto;
             animation: floatRing 3s ease-in-out infinite;
         }
 
         @keyframes floatRing {
             0%, 100% { transform: translateY(0) rotateX(10deg); }
-            50% { transform: translateY(-10px) rotateX(20deg); }
+            50% { transform: translateY(-15px) rotateX(20deg); }
         }
 
         .ring-band {
@@ -178,20 +187,19 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 8px solid #FFDF00; 
+            border: 6px solid #FFDF00; 
             box-shadow: 
                 0 0 15px rgba(255, 223, 0, 0.8),
-                inset 0 0 15px rgba(255, 223, 0, 0.8),
-                0 10px 10px rgba(0,0,0,0.1);
+                inset 0 0 15px rgba(255, 223, 0, 0.8);
         }
 
         .ring-diamond {
             position: absolute;
-            top: -15px;
+            top: -12px;
             left: 50%;
             transform: translateX(-50%) rotate(45deg);
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
             background: radial-gradient(circle at 30% 30%, #ffffff, #e0f7fa, #b2ebf2);
             border-radius: 4px;
             box-shadow: 
@@ -208,7 +216,7 @@
 
         .success-msg {
             color: var(--primary);
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 900;
             text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
             margin-bottom: 20px;
@@ -216,11 +224,13 @@
 
         #loveVideo {
             width: 100%;
-            max-width: 280px;
-            border-radius: 15px;
-            border: 3px solid rgba(255,255,255,0.7);
-            box-shadow: 0 10px 20px rgba(255,77,133,0.3);
-            pointer-events: none; /* User cannot interact with it */
+            max-width: 320px;
+            border-radius: 20px;
+            border: 4px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(255,77,133,0.3);
+            background-color: #000;
+            /* Added object-fit so the video fills its bounds elegantly */
+            object-fit: cover;
         }
     </style>
 </head>
@@ -232,11 +242,11 @@
         
         <!-- Proposal Screen -->
         <div id="proposal-screen">
-            <h1>تینا جان... 💖</h1>
+            <h1>تینا جانم... 💖</h1>
             <p>با من وارد رابطه میشی قربونت برم؟</p>
             <div class="button-group">
                 <button class="btn btn-yes" id="yes-btn">بله 🥰</button>
-                <button class="btn btn-no" id="no-btn">نه 🥺</button>
+                <button class="btn btn-no" id="no-btn">نه 😢</button>
             </div>
         </div>
 
@@ -246,9 +256,9 @@
                 <div class="ring-band"></div>
                 <div class="ring-diamond"></div>
             </div>
-            <div class="success-msg">عاشقتم که! ❤️</div>
-            <!-- Muted is added for autoplay compatibility, but since the user triggered it via click, we can play it. -->
-            <video id="loveVideo" src="1.mp4" loop playsinline muted></video>
+            <div class="success-msg">می‌دونستم قبول می‌کنی! ❤️</div>
+            <!-- Video WITHOUT muted attribute so it plays with sound! -->
+            <video id="myVideo" src="1.mp4" loop playsinline></video>
         </div>
 
     </div>
@@ -258,95 +268,88 @@
         const yesBtn = document.getElementById('yes-btn');
         const proposalScreen = document.getElementById('proposal-screen');
         const successScreen = document.getElementById('success-screen');
-        const loveVideo = document.getElementById('loveVideo');
+        const loveVideo = document.getElementById('myVideo');
 
+        // Cheeky/Stubborn phrases for the "No" button
+        const noPhrases = [
+            "دستت خورد حتما! 😏", 
+            "اصلا مگه دست خودته؟ 🤨", 
+            "این دکمه خرابه! 🙄", 
+            "گزینه نه تحریمه! 🚫", 
+            "الان غیب میشما... 🫠"
+        ];
+        
+        let clickCount = 0;
+
+        // Generate floating hearts in the background
         function createHearts() {
             const container = document.getElementById('ambient-container');
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) {
                 let heart = document.createElement('div');
                 heart.innerHTML = '❤️';
                 heart.classList.add('ambient-heart');
                 heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 6 + 4) + 's'; 
+                heart.style.animationDuration = (Math.random() * 5 + 4) + 's'; 
                 heart.style.animationDelay = (Math.random() * 5) + 's';
                 container.appendChild(heart);
             }
         }
         createHearts();
 
-        function teleportNoButton(e) {
-            if (e && e.cancelable) e.preventDefault();
-
-            // Bring button out of standard flow so it can move anywhere
-            if (noBtn.parentNode !== document.body) {
-                noBtn.style.position = 'fixed';
-                noBtn.style.right = 'auto'; 
-                noBtn.style.bottom = 'auto';
-                noBtn.style.margin = '0';
-                document.body.appendChild(noBtn);
+        // The Cheeky Logic for "No" Button
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Check if we reached the end of phrases
+            if (clickCount < noPhrases.length) {
+                noBtn.innerText = noPhrases[clickCount];
             }
 
-            const padding = 20; // Ensure it doesn't touch the exact edge
-            const btnWidth = noBtn.offsetWidth;
-            const btnHeight = noBtn.offsetHeight;
-            
-            const maxX = window.innerWidth - btnWidth - padding;
-            const maxY = window.innerHeight - btnHeight - padding;
-            
-            // Math.max guarantees it won't go into negative coordinates (offscreen left/top)
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-            
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-        }
+            clickCount++;
 
-        document.addEventListener('touchmove', (e) => {
-            // Check if "No" button still exists in the DOM
-            if (!document.contains(noBtn)) return;
-
-            const touch = e.touches[0];
-            const btnRect = noBtn.getBoundingClientRect();
-            
-            // Calculate center of the "No" button
-            const btnCenterX = btnRect.left + (btnRect.width / 2);
-            const btnCenterY = btnRect.top + (btnRect.height / 2);
-            
-            // Calculate distance between finger and button center
-            const distance = Math.hypot(touch.clientX - btnCenterX, touch.clientY - btnCenterY);
-            
-            // If finger gets closer than 80px, teleport!
-            if (distance < 80) {
-                teleportNoButton();
+            // If clicked enough times (after the last phrase), completely hide it
+            if (clickCount > noPhrases.length) {
+                noBtn.style.display = 'none';
+                yesBtn.style.transform = `scale(1.8)`; // Make YES button massive
+                return;
             }
-        }, { passive: false }); // Non-passive to allow smooth interaction block if needed
 
-        // Direct tap handling - impossible to click!
-        noBtn.addEventListener('touchstart', teleportNoButton, { passive: false });
-        
-        // Mouse handling for desktop/testing
-        noBtn.addEventListener('mouseover', teleportNoButton);
-        noBtn.addEventListener('mousemove', teleportNoButton);
+            // Increase Yes size massively with transform scale
+            let yesScale = 1 + (clickCount * 0.15);
+            yesBtn.style.transform = `scale(${yesScale})`;
+            
+            // Decrease No size
+            let noScale = 1 - (clickCount * 0.15);
+            noBtn.style.transform = `scale(${Math.max(0, noScale)})`;
+            
+            // Fade out No button gradually
+            noBtn.style.opacity = Math.max(0, 1 - (clickCount * 0.15));
+        });
 
+        // The Success Logic for "Yes" Button
         yesBtn.addEventListener('click', () => {
-            // Completely remove the "No" button
-            if (noBtn.parentNode) {
-                noBtn.parentNode.removeChild(noBtn);
-            }
-            
-            // Switch screens
+            // Completely hide the proposal screen (both buttons and text disappear)
             proposalScreen.style.display = 'none';
+            
+            // Show the success screen
             successScreen.classList.add('active');
 
-            // Play video (Autoplay works here because of the explicit user 'click' on the Yes button)
-            loveVideo.play().catch(err => console.log("Video play failed:", err));
+            // Force play video WITH SOUND. 
+            // Browsers allow unmuted autoplay if triggered by a direct user click event like this!
+            loveVideo.play().catch(err => {
+                console.log("Video play failed:", err);
+                // Fallback: If for some strict reason it blocks, we can unmute explicitly just in case
+                loveVideo.muted = false;
+                loveVideo.play();
+            });
 
             // Fire celebration confetti
             fireConfetti();
         });
 
+        // Beautiful Confetti Animation function
         function fireConfetti() {
-            var duration = 4 * 1000;
+            var duration = 5 * 1000;
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
 
